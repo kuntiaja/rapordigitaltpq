@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapor TPQ</title>
+  <script src="styless.js"></script>
+</head>
+<body>
+  <header class="top">
+    <h1>Rapor TPQ</h1>
+    <nav id="nav" hidden></nav>
+    <button id="logout" class="ghost" hidden>Keluar</button>
+  </header>
+  <main>
+    <section id="login" class="card">
+      <h2>Masuk</h2>
+      <div class="tabs">
+        <button class="tab on" data-r="guru">Guru</button>
+        <button class="tab" data-r="wali">Wali murid</button>
+      </div>
+      <label id="lblPass">Kata sandi guru<input id="pass" type="password" autocomplete="current-password"></label>
+      <label id="lblCode" hidden>Kode dari guru<input id="code" placeholder="TPQXXXXX"></label>
+      <button id="go" class="primary">Masuk</button>
+      <p id="msg" class="msg" role="alert"></p>
+    </section>
+    <section id="view" hidden></section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
