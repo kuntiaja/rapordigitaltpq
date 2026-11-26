@@ -229,7 +229,7 @@ class IntegrationSyncService(private val context: Context) {
     }
 
     companion object {
-        val APPS_SCRIPT_CODE_GS = """
+        val APPS_SCRIPT_CODE_GS = "https://script.google.com/macros/s/AKfycbxMfzanb_0IR0C38-SE9sHMdhpT9pSaXVMbye7WfrKgSO9yYGtyTECHLV6ZFlxrGsXb/exec"
             const SHEETS = {
               SANTRI: 'Santri',
               NILAI: 'Nilai_Hafalan_Tajwid',
