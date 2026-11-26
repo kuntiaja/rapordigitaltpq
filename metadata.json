@@ -1,6 +1,0 @@
-{
-  "name": "Rapor TPQ",
-  "description": "Aplikasi rapor digital TPQ santri untuk guru dan wali murid dengan hafalan 114 surat Al-Qur'an, penilaian tajwid, absensi harian, gamifikasi badge, sinkronisasi Google Sheets/Apps Script & GitHub, notifikasi jadwal, serta login Google dan biometrik.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
