@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Rapor TPQ</string>
+    <string name="tagline_tpq">Rapor Digital Hafalan &amp; Tajwid Santri</string>
+    <string name="sign_in_google">Masuk dengan Google</string>
+    <string name="biometric_unlock_title">Kunci Biometrik Rapor TPQ</string>
+    <string name="biometric_unlock_subtitle">Gunakan sidik jari, wajah, atau PIN perangkat untuk mengakses rapor santri</string>
+    <string name="nav_dashboard">Beranda</string>
+    <string name="nav_hafalan">114 Surat</string>
+    <string name="nav_absensi">Absensi</string>
+    <string name="nav_laporan">Prestasi</string>
+    <string name="nav_integrasi">Integrasi</string>
+</resources>

@@ -1,0 +1,184 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil pengguna aplikasi Rapor TPQ (Guru atau Wali Murid) dengan preferensi notifikasi, biometrik, dan integrasi Apps Script / GitHub.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID pemilik profil" },
+        "displayName": { "type": "string", "description": "Nama lengkap pengguna" },
+        "email": { "type": "string", "description": "Email akun Google" },
+        "preferredMode": { "type": "string", "enum": ["GURU", "WALI_MURID"], "description": "Mode tampilan aktif" },
+        "tpqName": { "type": "string", "description": "Nama lembaga TPQ" },
+        "biometricEnabled": { "type": "boolean", "description": "Status kunci biometrik" },
+        "dailyReminderEnabled": { "type": "boolean", "description": "Aktifkan pengingat setor harian" },
+        "dailyReminderHour": { "type": "integer", "description": "Jam pengingat harian (0-23)" },
+        "dailyReminderMinute": { "type": "integer", "description": "Menit pengingat harian (0-59)" },
+        "weeklyDigestEnabled": { "type": "boolean", "description": "Notifikasi progres mingguan otomatis" },
+        "monthlyAutoReportEnabled": { "type": "boolean", "description": "Laporan bulanan otomatis ke wali murid" },
+        "appsScriptUrl": { "type": "string", "description": "URL Web App Google Apps Script (opsional)" },
+        "githubRepo": { "type": "string", "description": "Target repositori GitHub owner/repo (opsional)" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Waktu dibuat (FieldValue.serverTimestamp())" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Waktu diperbarui (FieldValue.serverTimestamp())" }
+      },
+      "required": [
+        "userId", "displayName", "email", "preferredMode", "tpqName",
+        "biometricEnabled", "dailyReminderEnabled", "dailyReminderHour",
+        "dailyReminderMinute", "weeklyDigestEnabled", "monthlyAutoReportEnabled",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "Santri": {
+      "title": "Santri",
+      "description": "Data induk santri TPQ beserta ringkasan progres 114 surat, nilai tajwid, kehadiran, XP, streak, dan badge gamifikasi.",
+      "type": "object",
+      "properties": {
+        "teacherId": { "type": "string", "description": "UID Guru pengampu santri" },
+        "teacherName": { "type": "string", "description": "Nama Ustadz/Ustadzah" },
+        "memberUids": { "type": "array", "description": "Daftar UID (Guru + Wali Murid) yang berhak mengakses data santri" },
+        "parentUids": { "type": "array", "description": "Daftar UID Wali Murid tertaut" },
+        "name": { "type": "string", "description": "Nama lengkap santri" },
+        "nis": { "type": "string", "description": "Nomor Induk Santri" },
+        "halaqahClass": { "type": "string", "description": "Kelas atau kelompok halaqah" },
+        "parentName": { "type": "string", "description": "Nama wali murid" },
+        "parentContact": { "type": "string", "description": "Kontak WhatsApp/Email wali murid" },
+        "shareCode": { "type": "string", "description": "Kode tautan aman untuk wali murid" },
+        "lastJoinCode": { "type": "string", "description": "Kode verifikasi saat wali murid menautkan akun (opsional)" },
+        "xpPoints": { "type": "integer", "description": "Total poin gamifikasi santri" },
+        "streakDays": { "type": "integer", "description": "Streak hari setor/hadir berturut-turut" },
+        "completedSurahCount": { "type": "integer", "description": "Jumlah surat Al-Qur'an berstatus Mumtaz (0-114)" },
+        "avgTajwidScore": { "type": "number", "description": "Rata-rata nilai tajwid (0-100)" },
+        "attendancePercent": { "type": "number", "description": "Persentase kehadiran (0-100)" },
+        "unlockedBadges": { "type": "array", "description": "Daftar ID badge pencapaian yang diraih" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" }
+      },
+      "required": [
+        "teacherId", "teacherName", "memberUids", "parentUids", "name", "nis",
+        "halaqahClass", "parentName", "parentContact", "shareCode", "xpPoints",
+        "streakDays", "completedSurahCount", "avgTajwidScore", "attendancePercent",
+        "unlockedBadges", "createdAt", "updatedAt"
+      ]
+    },
+    "ShareCode": {
+      "title": "ShareCode",
+      "description": "Pemetaan kode akses wali murid menuju dokumen santri tertentu.",
+      "type": "object",
+      "properties": {
+        "santriId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "santriName": { "type": "string" },
+        "halaqahClass": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["santriId", "teacherId", "santriName", "halaqahClass", "createdAt"]
+    },
+    "NilaiRecord": {
+      "title": "NilaiRecord",
+      "description": "Catatan penilaian real-time hafalan surat Al-Qur'an dan komponen tajwid.",
+      "type": "object",
+      "properties": {
+        "santriId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "surahNumber": { "type": "integer" },
+        "surahName": { "type": "string" },
+        "surahArabic": { "type": "string" },
+        "ayahFrom": { "type": "integer" },
+        "ayahTo": { "type": "integer" },
+        "hafalanStatus": { "type": "string", "enum": ["MUMTAZ", "MURAJAAH", "PROSES"] },
+        "scoreKelancaran": { "type": "integer" },
+        "scoreMakhraj": { "type": "integer" },
+        "scoreHukumTajwid": { "type": "integer" },
+        "scoreMadQalqalah": { "type": "integer" },
+        "scoreFashohah": { "type": "integer" },
+        "totalScore": { "type": "integer" },
+        "notes": { "type": "string" },
+        "dateLabel": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "santriId", "teacherId", "memberUids", "surahNumber", "surahName", "surahArabic",
+        "ayahFrom", "ayahTo", "hafalanStatus", "scoreKelancaran", "scoreMakhraj",
+        "scoreHukumTajwid", "scoreMadQalqalah", "scoreFashohah", "totalScore",
+        "notes", "dateLabel", "createdAt", "updatedAt"
+      ]
+    },
+    "AbsensiRecord": {
+      "title": "AbsensiRecord",
+      "description": "Catatan kehadiran harian santri (Hadir, Izin, Sakit, Alpha).",
+      "type": "object",
+      "properties": {
+        "santriId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "dateKey": { "type": "string" },
+        "status": { "type": "string", "enum": ["HADIR", "IZIN", "SAKIT", "ALPHA"] },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["santriId", "teacherId", "memberUids", "dateKey", "status", "note", "createdAt", "updatedAt"]
+    },
+    "MonthlyReport": {
+      "title": "MonthlyReport",
+      "description": "Laporan perkembangan bulanan otomatis untuk wali murid.",
+      "type": "object",
+      "properties": {
+        "santriId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "monthKey": { "type": "string" },
+        "monthTitle": { "type": "string" },
+        "santriName": { "type": "string" },
+        "totalSetoran": { "type": "integer" },
+        "completedSurahs": { "type": "integer" },
+        "avgHafalanScore": { "type": "number" },
+        "avgTajwidScore": { "type": "number" },
+        "attendancePercent": { "type": "number" },
+        "hadirDays": { "type": "integer" },
+        "izinDays": { "type": "integer" },
+        "sakitDays": { "type": "integer" },
+        "alphaDays": { "type": "integer" },
+        "teacherNote": { "type": "string" },
+        "sentToParent": { "type": "boolean" },
+        "parentAcknowledged": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "santriId", "teacherId", "memberUids", "monthKey", "monthTitle", "santriName",
+        "totalSetoran", "completedSurahs", "avgHafalanScore", "avgTajwidScore",
+        "attendancePercent", "hadirDays", "izinDays", "sakitDays", "alphaDays",
+        "teacherNote", "sentToParent", "parentAcknowledged", "createdAt", "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Profil dan preferensi pengguna (Guru/Wali Murid)."
+    },
+    "/santri/{santriId}": {
+      "schema": { "$ref": "#/entities/Santri" },
+      "description": "Data induk santri TPQ beserta ringkasan statistik & badge."
+    },
+    "/share_codes/{code}": {
+      "schema": { "$ref": "#/entities/ShareCode" },
+      "description": "Kode rahasia untuk menautkan akun wali murid ke santri."
+    },
+    "/santri/{santriId}/nilai/{nilaiId}": {
+      "schema": { "$ref": "#/entities/NilaiRecord" },
+      "description": "Nilai hafalan dan tajwid per setoran surat."
+    },
+    "/santri/{santriId}/absensi/{absensiId}": {
+      "schema": { "$ref": "#/entities/AbsensiRecord" },
+      "description": "Rekam kehadiran harian santri."
+    },
+    "/santri/{santriId}/laporan/{laporanId}": {
+      "schema": { "$ref": "#/entities/MonthlyReport" },
+      "description": "Laporan perkembangan bulanan yang dikirim ke wali murid."
+    }
+  }
+}
